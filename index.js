@@ -20,3 +20,11 @@ client.connect(err => {
   client.close();
 });
 
+app.get("/", (req,res)=> {
+    res.send("My Library Backend")
+})
+
+
+app.get("/users/login")
+
+app.get("/users/register")
