@@ -1,7 +1,6 @@
 {
   "name": "mylibrary",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +13,14 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "mongodb": "^4.10.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kajeiou/MyLibrary-Backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kajeiou/MyLibrary-Backend/issues"
+  },
+  "homepage": "https://github.com/kajeiou/MyLibrary-Backend#readme",
+  "description": ""
 }
