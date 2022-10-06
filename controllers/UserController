@@ -1,0 +1,71 @@
+
+const User = require("../models/User")
+const createError = require('http-errors');
+const pwRules = require('../security/password')
+const { Validator } = require("node-input-validator");
+const bcrypt = require("bcrypt");
+const { default: mongoose } = require("mongoose");
+
+exports.register = (req, res, next) => {
+    console.log('register')
+    const newId = new mongoose.Types.ObjectId();
+    const validInput = new Validator(req.body, {
+        email: 'required|email|length:100',
+        password:'required'
+    })
+    validInput.check()
+    .then((matched) => {
+        
+        if(!matched) {
+            createError(404, 'Error' + error);
+        }
+        else {
+            if(pwRules.validate(req.body.password)) {
+                
+                bcrypt.hash(req.body.password,10) 
+                .then(hash => {
+                    const newId = new mongoose.Types.ObjectId();
+                    
+                    const user = new User({
+                        id: newId,
+                        userName: req.body.userName,
+                        email: req.body.email,
+                        password: hash,
+                        isAdmin:false
+
+                    })
+                    console.log("test")
+                    user.save()
+                    .then(() => res.send(user))
+                    .catch(error =>  console.log("error register"));
+                })
+            }
+            else {
+                throw 'Invalid password'
+            }
+        }
+    })
+    .catch(error =>  createError(404, 'Error' + error));
+}
+
+exports.login = (req, res, next) => {
+    console.log('login')
+}
+exports.getUser = async (req, res, next) => {
+    console.log('getUser')
+    const id = req.params.id
+    try {
+        const user = await User.findById(id)
+        if(!user) {
+            throw createError(404, 'User id '+ id + ' not founded.');
+        }
+        res.send(user)
+    } catch(error) {
+        console.log(error)
+        createError(404, 'Error' + error)
+    }
+}
+exports.deleteUser = (req, res, next) => {
+    console.log('deleteUser')
+    const id = req.params.id
+}
