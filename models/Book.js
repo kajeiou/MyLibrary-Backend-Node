@@ -10,10 +10,10 @@ const bookSchema = mongoose.Schema({
             message: (pops) => "Le premier caractère du nom doit être en majuscule"
         }
     },
-    price: {type: Double, required: true, trim: true, minlength:1, maxlength:5},
-    stock: {type: Integer, required: true, trim: true, minlength:1, maxlength:5},
-    ISBN: {type: String, required: true, trim: true, minlength:10, maxlength:13},
-    pageCount: {type: Integer, required: true, trim: true, minlength:1, maxlength:5},
+    price: {type: Number, required: true, trim: true, minlength:1, maxlength:5},
+    stock: {type: Number, required: true, trim: true, minlength:1, maxlength:5},
+    isbn: {type: String, required: true, trim: true, minlength:10, maxlength:13},
+    pageCount: {type: Number, required: true, trim: true, minlength:1, maxlength:5},
 })
 
 bookSchema.plugin(uniqueValidator) 

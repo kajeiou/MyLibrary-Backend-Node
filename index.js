@@ -5,7 +5,8 @@ const cors = require("cors");
 const { connect, db } = require('./db/connect');
 const mongoose = require('mongoose')
 const app = express();
-const userController = require('./controllers/UserController')
+const userController = require('./controllers/UserController.js')
+const bookController = require('./controllers/BookController.js')
 
 app.use(cors());
 app.use(bodyparser.json());
@@ -19,15 +20,14 @@ app.listen(2000, ()=> {
 connect()
 db()
 
-const userRoutes = require('./routes/user');
+app.get("/", (req,res)=> {
+  res.send("My Library Backend")
+})
 
+
+const userRoutes = require('./routes/user');
 app.use('/users/',userRoutes)
 
-app.get("/", (req,res)=> {
-    res.send("My Library Backend")
-})
 
-
-app.get("/books", (req,res)=> {
-  res.send("All books")
-})
+const bookRoutes = require('./routes/book');
+app.use('/books/', bookRoutes)
