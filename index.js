@@ -31,3 +31,6 @@ app.use('/users/',userRoutes)
 
 const bookRoutes = require('./routes/book');
 app.use('/books/', bookRoutes)
+
+const bookCategory = require('./routes/bookCategory');
+app.use('/bookCategory/', bookCategory)

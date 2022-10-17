@@ -7,13 +7,11 @@ exports.getAllBooks = async (req, res, next) => {
     try {
         const books = await Book.find({})
         if(!books) {
-            console.log('Books not founded.')
-            throw createError(404, 'Books not founded.');
+            res.status(404).send('Error books not founded' + error);
         }
         res.send(books)
     } catch(error) {
-        console.log(error)
-        createError(404, 'Error' + error)
+        res.status(404).send('Error books not founded' + error);
     }
 }
 
@@ -31,7 +29,7 @@ exports.create =  (req, res, next) => {
     })
     book.save()
     .then(() => res.send(book))
-    .catch(error =>  console.log("error register"+error));
+    .catch(error =>  res.status(404).send('Error creating book ' + error));
 
 }
 
@@ -41,13 +39,11 @@ exports.getBook =  async (req, res, next) => {
     try {
         const book = await Book.findById(id)
         if(!book) {
-            console.log('Book id '+ id + ' not founded.')
-            throw createError(404, 'Book id '+ id + ' not founded.');
+            res.status(404).send('Book id '+ id + ' not founded.');
         }
         res.send(book)
     } catch(error) {
-        console.log(error)
-        createError(404, 'Error' + error)
+        res.status(404).send('Error' + error)
     }
 }
 
@@ -59,10 +55,9 @@ exports.deleteBook =  async (req, res, next) => {
     const id = req.params.id
     try {
         const delBook = await Book.deleteOne({_id : id})
-        res.send("book deleted")
+        res.send("book id " + id + " deleted")
     }
     catch(error) {
-        console.log(error)
-        createError(404, 'Error' + error)
+        res.status(404).send('Error ' + error)
     }
 }
