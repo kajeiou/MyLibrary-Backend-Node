@@ -22,13 +22,13 @@ function secure(req,res, next) {
 
 
 // Get all books
-router.get("/", secure, bookController.getAllBooks)
-
-// Create a new book with token
-router.post("/create", secure, bookController.create)
+router.get("/", bookController.getAllBooks)
 
 // Get a book
 router.get("/:id", bookController.getBook)
+
+// Create a new book with token
+router.post("/create",secure, bookController.create)
 
 // Update a book with token
 router.put("/:id", secure, bookController.updateBook)

@@ -17,14 +17,20 @@ function secure(req,res, next) {
     }
 }
 
+// Get all users with token
+router.get("/", secure, userController.getAllUsers)
+
+// Get a user
+router.get("/:id", secure,  userController.getUser)
+
 // Login user
 router.post("/login", userController.login)
 
 // Register user
 router.post("/register", userController.register)
 
-// Get a user
-router.get("/:id", userController.getUser)
+// Update a user with token
+router.put("/:id", secure, userController.updateUser)
 
 // Delete user with token
 router.delete("/:id", secure, userController.deleteUser)

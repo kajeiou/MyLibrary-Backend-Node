@@ -47,8 +47,24 @@ exports.getBook =  async (req, res, next) => {
     }
 }
 
-exports.updateBook =  (req, res, next) => {
+exports.updateBook =  async(req, res, next) => {
     console.log("update a book")
+    const id = req.params.id
+
+    try {
+        const book = await Book.findByIdAndUpdate(id, 
+            {
+                bookName: req.params.bookName,
+                price: req.params.price,
+                stock: req.params.bookName,
+                isbn:req.params.isbn,
+                pageCount:req.params.pageCount
+            })
+            res.send("book id " + id + " updated")
+    }
+    catch(error) {
+        res.status(404).send('Error' + error)
+    }
 }
 
 exports.deleteBook =  async (req, res, next) => {

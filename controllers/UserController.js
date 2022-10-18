@@ -7,6 +7,19 @@ const bcrypt = require("bcrypt");
 const { default: mongoose } = require("mongoose");
 const jwt = require('jsonwebtoken');
 
+exports.getAllUsers = async (req, res, next) => {
+    console.log("get all users")
+    try {
+        const users = await User.find({})
+        if(!users) {
+            res.status(404).send('Error users not founded' + error);
+        }
+        res.send(users)
+    } catch(error) {
+        res.status(404).send('Error users not founded' + error);
+    }
+}
+
 exports.register = (req, res, next) => {
     console.log('register')
     const validInput = new Validator(req.body, {
@@ -80,6 +93,7 @@ exports.login = async(req, res, next) => {
     })
     
 }
+
 exports.getUser = async (req, res, next) => {
     console.log('getUser')
     const id = req.params.id
@@ -93,6 +107,24 @@ exports.getUser = async (req, res, next) => {
         res.status(404).send('User id '+ id + ' invalid');
     }
 }
+
+exports.updateUser =  async(req, res, next) => {
+    console.log("update a user")
+    const id = req.params.id
+
+    try {
+        const user = await User.findByIdAndUpdate(id, 
+            {
+                email: req.params.bookName,
+                isAdmin: req.params.price,
+            })
+            res.send("User id " + id + " updated")
+    }
+    catch(error) {
+        res.status(404).send('Error' + error)
+    }
+}
+
 exports.deleteUser = async(req, res, next) => {
     console.log('deleteUser')
     const id = req.params.id
