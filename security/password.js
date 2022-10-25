@@ -1,6 +1,6 @@
 const passwordValidator = require('password-validator')
 const pwSchema = new passwordValidator();
-
+// Validateur de mot de passe
 pwSchema
 .is().min(6)
 .is().max(16)

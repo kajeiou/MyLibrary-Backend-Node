@@ -8,7 +8,6 @@ const { default: mongoose } = require("mongoose");
 const jwt = require('jsonwebtoken');
 
 exports.getAllUsers = async (req, res, next) => {
-    console.log("get all users")
     try {
         const users = await User.find({})
         if(!users) {
@@ -21,7 +20,6 @@ exports.getAllUsers = async (req, res, next) => {
 }
 
 exports.register = (req, res, next) => {
-    console.log('register')
     const validInput = new Validator(req.body, {
         email: 'required|email|length:100',
         password:'required'
@@ -32,7 +30,10 @@ exports.register = (req, res, next) => {
             res.status(404).send('Email or password required '+ error)
         }
         else {
+            // Si format de mot de passe est valide
+                // Mini = 6 ; Max = 16 ; 1 uppercase ; letters ; 1 number ; no space ; not Passw0rd, Azerty123, Password123 
             if(pwRules.validate(req.body.password)) {
+                // Hashage du mot de passe
                 bcrypt.hash(req.body.password,10) 
                 .then(hash => {
                     const newId = new mongoose.Types.ObjectId();
@@ -44,11 +45,13 @@ exports.register = (req, res, next) => {
                         isAdmin:false
 
                     })
+                    // Sauvegarde bdd
                     user.save()
                     .then(() => res.send(user))
                     .catch(error =>   res.status(404).send('Error register '+ error));
                 })
             }
+            // Si format de mot de passe invalide
             else {
                 res.status(404).send('Invalid format password')
             }
@@ -58,16 +61,20 @@ exports.register = (req, res, next) => {
 }
 
 exports.login = async(req, res, next) => {
-    console.log('login')
     const email = req.body.email
+    // Recherche de l'utilisateur par adresse mail
     User.findOne({'email': email})
     .then(user =>{
+        // Si user trouvé
         if(user!=null) {
+            // Comparaison mot de passe entré et mot de passe crypté dans la base
             bcrypt.compare(req.body.password,user.password)
             .then( valid => {
                 if(valid == false) {
                     res.status(404).send('Email or password invalid');
                 }
+                // Si les identifiants sont bon
+                // Envoie du token
                 else {
                     res.send({ 
                         userId: user.id, 
@@ -95,9 +102,9 @@ exports.login = async(req, res, next) => {
 }
 
 exports.getUser = async (req, res, next) => {
-    console.log('getUser')
     const id = req.params.id
     try {
+        // Recherche de l'utilisateur
         const user = await User.findById(id)
         if(!user) {
             res.status(404).send('User id '+ id + ' not founded');
@@ -109,10 +116,9 @@ exports.getUser = async (req, res, next) => {
 }
 
 exports.updateUser =  async(req, res, next) => {
-    console.log("update a user")
     const id = req.params.id
-
     try {
+        // Recherche de l'utilisateur et mise à jour
         const user = await User.findByIdAndUpdate(id, 
             {
                 email: req.params.bookName,
@@ -126,9 +132,9 @@ exports.updateUser =  async(req, res, next) => {
 }
 
 exports.deleteUser = async(req, res, next) => {
-    console.log('deleteUser')
     const id = req.params.id
     try {
+        // Suppression de l'utilisateur
         const delUser = await User.deleteOne({_id : id})
         res.send("User id "+ id+ "deleted")
     }

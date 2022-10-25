@@ -5,7 +5,9 @@ require("dotenv").config();
 
 
 function connect() {
+    // Récupération de l'url dans le fichier d'environnement
     const uri = process.env.MONGO_URI;
+    // Connexion à la base de données Mongo
     mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true}, err => {
             if(err) {
                console.error(err)

@@ -3,8 +3,8 @@ const createError = require('http-errors');
 const { default: mongoose } = require("mongoose");
 
 exports.getAllBooks = async (req, res, next) => {
-    console.log("get all books")
     try {
+        // Récupérations de tous les livres
         const books = await Book.find({})
         if(!books) {
             res.status(404).send('Error books not founded' + error);
@@ -16,9 +16,7 @@ exports.getAllBooks = async (req, res, next) => {
 }
 
 exports.create =  (req, res, next) => {
-    console.log("create")
     const newId = new mongoose.Types.ObjectId();
-
     const book = new Book({
         id: newId,
         bookName:  req.body.bookName,
@@ -27,6 +25,7 @@ exports.create =  (req, res, next) => {
         isbn: req.body.isbn,
         pageCount: req.body.pageCount
     })
+    // Enregistrement du livre dans la bdd
     book.save()
     .then(() => res.send(book))
     .catch(error =>  res.status(404).send('Error creating book ' + error));
@@ -34,9 +33,9 @@ exports.create =  (req, res, next) => {
 }
 
 exports.getBook =  async (req, res, next) => {
-    console.log("get a book")
     const id = req.params.id
     try {
+        // Récupération d'un livre par id
         const book = await Book.findById(id)
         if(!book) {
             res.status(404).send('Book id '+ id + ' not founded.');
@@ -48,10 +47,9 @@ exports.getBook =  async (req, res, next) => {
 }
 
 exports.updateBook =  async(req, res, next) => {
-    console.log("update a book")
     const id = req.params.id
-
     try {
+        //Mise à jour de tous les attributs du livre
         const book = await Book.findByIdAndUpdate(id, 
             {
                 bookName: req.params.bookName,
@@ -70,6 +68,7 @@ exports.updateBook =  async(req, res, next) => {
 exports.deleteBook =  async (req, res, next) => {
     const id = req.params.id
     try {
+        // Suppression du livre
         const delBook = await Book.deleteOne({_id : id})
         res.send("book id " + id + " deleted")
     }

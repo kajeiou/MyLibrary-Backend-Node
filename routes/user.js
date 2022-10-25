@@ -6,7 +6,7 @@ const userController = require('../controllers/UserController.js')
 // Function vérification token
 function secure(req,res, next) {
     try {
-        console.log("secure")
+        // Récupération du jeton
         const token = req.headers.authorization.split(' ')[1];
         const decodeToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
         const userId = decodeToken.userId;
