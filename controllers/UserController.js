@@ -77,10 +77,10 @@ exports.login = async(req, res, next) => {
                 // Envoie du token
                 else {
                     res.send({ 
-                        userId: user.id, 
+                        userId: user._id, 
                         token: jwt.sign(
                             { 
-                                userId: user.id, 
+                                userId: user._id, 
                                 isAdmin: user.isAdmin 
                             },
                             'RANDOM_TOKEN_SECRET',
