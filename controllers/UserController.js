@@ -121,8 +121,8 @@ exports.updateUser =  async(req, res, next) => {
         // Recherche de l'utilisateur et mise à jour
         const user = await User.findByIdAndUpdate(id, 
             {
-                email: req.params.bookName,
-                isAdmin: req.params.price,
+                email: req.body.bookName,
+                isAdmin: req.body.isAdmin,
             })
             res.send("User id " + id + " updated")
     }

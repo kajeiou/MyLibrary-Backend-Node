@@ -52,12 +52,13 @@ exports.updateBook =  async(req, res, next) => {
         //Mise à jour de tous les attributs du livre
         const book = await Book.findByIdAndUpdate(id, 
             {
-                bookName: req.params.bookName,
-                price: req.params.price,
-                stock: req.params.bookName,
-                isbn:req.params.isbn,
-                pageCount:req.params.pageCount
+                bookName: req.body.bookName,
+                price: req.body.price,
+                stock: req.body.stock,
+                isbn:req.body.isbn,
+                pageCount:req.body.pageCount
             })
+            console.log(req.body.bookName)
             res.send("book id " + id + " updated")
     }
     catch(error) {
